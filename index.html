@@ -1,0 +1,190 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="Description" content="Put your description here."><base href="/"><style>body,html{margin:0;padding:0;font-family:sans-serif;background-color:#ededed;--r-main-font-size:24px;--r-heading-margin:20px 0 12px 0}.slides{width:75%!important}.container{top:0!important;display:flex!important;flex-direction:row!important}.column{flex:1}section{text-align:left}.popover{position:absolute;background-color:#4d4d4d;padding:1rem 2rem;box-shadow:0 2px 5px 0 rgba(0,0,0,.26);border-radius:10px;width:auto;transform:translate(35px,-15px)}.popover:after{content:"";position:absolute;top:6px;left:-10px;border-style:solid;border-width:25px 25px 0;border-color:#4d4d4d transparent;display:block;width:0;z-index:1;transform:translate(-50%,50%) rotate(90deg)}.reveal pre code{max-height:800px!important}</style><link rel="stylesheet" href="rust-lesson-2/bce6cb85.css"><link rel="stylesheet" href="rust-lesson-2/5265d60d.css"><link rel="stylesheet" href="rust-lesson-2/86125abe.css"><title>Lesson 1</title></head><body><div class="reveal"><div class="slides"><section><h1>Non-Primitive Types</h1></section><section><h3>Structs</h3><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">// Structs with fields
+struct Person { // Name is TitleCase
+  name: String,
+  age: u32
+}
+<span class="fragment fade-in">let person = Person {
+  name: String::from("Alice"),
+  age: 33
+};</span>
+<span class="fragment fade-in">// Accessing a field
+let name: String = person.name;</span></span>
+
+<span class="fragment fade-in-then-semi-out">// Tuple Structs
+struct Color(u32, u32, u32);
+<span class="fragment fade-in">let blue = Color(0, 0, 255);</span>
+<span class="fragment fade-in">// Accessing a member, just like a tuple
+let red_component; u32 = blue.0;</span></span>
+
+<span class="fragment fade-in-then-semi-out">// Unit Structs
+struct Line;
+<span class="fragment fade-in-then-semi-out">let line = Line;</span></span>
+            </code></pre></section><section><h3>Initializing structs with fields</h3><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">// Defining the struct
+struct Person {
+  name: String,
+  age: u32
+}</span>
+
+<span class="fragment fade-in-then-semi-out">// Instantiating a struct
+let alice = Person {
+  name: String::from("Alice"),
+  age: 48
+};</span>
+
+<span class="fragment fade-in-then-semi-out">// Shorthand field assignment
+let name = String::from("Bob");
+let bob = Person {
+  name, // Variable name and field name need to match
+  age: 33
+};</span>
+
+<span class="fragment fade-in-then-semi-out">// Shorthand doesn't work with references
+fn create_homonymous_from_name(name: &amp;String) -&gt; Person {
+  <span class="fragment strike">Person {
+    name, // Err, name is a reference
+    age: 33
+  }</span>
+}</span>
+
+<span class="fragment fade-in-then-semi-out">// Shorthand struct update syntax 
+let alice = Person {
+  name: String::from("Alice"),
+  age: 55
+};
+let bob = Person {
+  name: String::from("Bob"), 
+  ..alice // Both instances must be of the same struct type
+          // Shorthand must be at the end
+};
+<span class="fragment fade-in-then-semi-out">let bob = Person {
+  name: String::from("Bob"), 
+  <span class="fragment strike">..alice </span> // Err, "alice" was consumed in the previous shorthad 
+};</span></span>
+
+<span class="fragment fade-in-then-semi-out">// Shorthand doesn't work with references
+fn create_homonymous_from_person(person: &amp;Person) -&gt; Person {
+  <span class="fragment strike">Person {
+    age: 33,
+    ..person // Err, person is a reference
+  }</span>
+}</span>
+
+            </code></pre></section><section><h3>Structs: ownership and mutability</h3><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">// Accessing fields
+let alice = Person {
+  name: String::from("Alice"),
+  age: 33
+};
+<span class="fragment fade-in-then-semi-out">println!("Alice's name is {}", alice.name); // prints "Alice's name is Alice"</span>
+<span class="fragment fade-in-then-semi-out">let age: u32 = alice.age;
+let age: u32 = alice.age; // Ok, u32 is unconsumable</span>
+<span class="fragment fade-in">let name: String = alice.name;</span>
+<span class="fragment fade-in-then-semi-out"><span class="fragment strike">let name: String = alice.name;</span> // Err, "alice" was partially consumed in the previous line</span>
+<span class="fragment fade-in-then-semi-out"><span class="fragment strike">println!("Alice's name is {}", alice.name);</span> // Err, "alice" was partially consumed in the previous line</span></span>
+
+<span class="fragment fade-in-then-semi-out">// Consumable by default, unlike tuples and arrays
+struct Color(u32, u32, u32);
+
+let blue_a = Color(0, 0, 255);
+let blue_b = blue_a;
+<span class="fragment strike">let blue_c = blue_a;</span> // Err, "blue_a" was consumed in the previous line</span>
+
+<span class="fragment fade-in-then-semi-out">// Mutability cascades
+let alice = Person {
+  name: String::from("Alic"),
+  age: 33
+};
+<span class="fragment strike">alice.age = 34;</span> // Err, "alice" is immutable</span>
+
+<span class="fragment fade-in-then-semi-out">// Mutability cascades
+let mut alice = Person {
+  name: String::from("Alic"),
+  age: 33
+};
+alice.age = 34; // Ok
+<span class="fragment fade-in">alice.age = 35; // Ok</span>
+<span class="fragment fade-in">alice.name = String::from("Alice"); // Ok</span></span>
+
+<span class="fragment fade-in-then-semi-out">// Mutability cascades
+let color = Color(0, 0, 255);
+<span class="fragment strike">color.0 = 100;</span> // Err, "color" is immutable</span>
+<span class="fragment fade-in">let mut color = Color(0, 0, 255);
+color.0 = 100; // Ok</span>
+</code></pre></section><section><h3>Implementation blocks: instance methods</h3><div class="container"><div class="column"><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">struct Person {
+  name: String,
+  age: u32
+}
+
+<span class="fragment fade-in-then-semi-out">impl Person {
+  <span class="fragment fade-in">// "self" must be the first parameter
+  // Refers to the struct instance
+  fn is_underage(&amp;self) -&gt; bool {
+    self.age &lt; 18
+  }</span>
+}
+
+<span class="fragment fade-in">let alice = Person {
+  name: String::from("Alice"),
+  age: 33
+};
+
+// "alice" is "self" in this function call
+let is_alice_underage: bool = alice.is_underage();</span></span>
+
+<span class="fragment fade-in-then-semi-out">impl Person {
+  // We need a mutable reference of a Person to call "change_name"
+  fn change_name(&amp;mut self, new_name: String) -&gt; () {
+    self.name = new_name;
+  }
+}
+
+<span class="fragment fade-in-then-semi-out">let alice = Person {
+  name: String::from("Alice"),
+  age: 33
+};
+<span class="fragment strike">alice.change_name(String::from("Bob"));</span> // Err, "alice" was not declared as mutable</span>
+<span class="fragment fade-in-then-semi-out">let mut alice = Person {
+  name: String::from("Alice"),
+  age: 33
+};
+alice.change_name(String::from("Bob")); // Ok</span></span>
+</span></code></pre></div><div class="column"><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">impl Person {
+  // We need full ownership of a Person to call "older_person"
+  fn older_person(self, other_person: Person) -&gt; Person {
+    if self.age &gt;= other_person.age {
+      self
+    } else {
+      other_person
+    }
+  }
+}
+
+<span class="fragment fade-in-then-semi-out">let alice = Person {
+  name: String::from("Alice"),
+  age: 33
+};
+let bob = Person {
+  name: String::from("Bob"),
+  age: 34
+};
+let older_person = alice.older_person(bob);
+<span class="fragment fade-in-then-semi-out"><span class="fragment strike">let name = alice.name;</span> // Err, "alice" was consumed when calling "older_person"</span>
+<span class="fragment fade-in-then-semi-out"><span class="fragment strike">let name = bob.name;</span> // Err, "bob" was consumed when calling "older_person"</span>
+</span></span> 
+</code></pre></div></div></section><section><h3>Implementation blocks: static methods</h3><li class="fragment fade-in-then-semi-out">There is no default constructor<br><ul><li class="fragment fade-in-then-semi-out">Define your own with static functions</li></ul></li><pre><code class="rust" data-noescape=""><span class="fragment fade-in-then-semi-out">struct Person {
+  name: String,
+  age: u32
+}
+
+impl Person {
+  <span class="fragment fade-in">// There is no "self" parameter
+  // Does not require an existing person
+  fn new(age: u32, name: String) -&gt; Self { // "Self" refers to Person, the type we are implementing a block for
+    Person {
+      name,
+      age
+    }
+  }</span>
+}
+<span class="fragment fade-in">
+let alice = Person::new(33, String::from("Alice"));</span> 
+</span></code></pre></section></div></div><script type="module" src="./rust-lesson-2/f97af496.js"></script></body></html>
