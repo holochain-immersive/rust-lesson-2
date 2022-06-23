@@ -2,7 +2,7 @@
 
 Source code for the lesson slides. Visit the slides here:
 
-https://holochain-immersive.github.io/lesson-2
+https://holochain-immersive.github.io/rust-lesson-2
 
 ## Setup Instructions
 
