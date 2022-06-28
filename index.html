@@ -1,91 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="Description" content="Put your description here." />
-    <base href="/" />
 
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-        background-color: #ededed;
-        --r-main-font-size: 24px;
-        --r-heading-margin: 20px 0 12px 0;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here." />
+  <base href="/" />
 
-      .slides {
-        width: 75% !important;
-      }
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+      --r-main-font-size: 24px;
+      --r-heading-margin: 20px 0 12px 0;
+    }
 
-      .container {
-        top: 0 !important;
-        display: flex !important;
-        flex-direction: row !important;
-      }
-      .column {
-        flex: 1;
-      }
+    .slides {
+      width: 75% !important;
+    }
 
-      section {
-        text-align: left;
-      }
+    .container {
+      top: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+    }
 
-      .popover {
-        position: absolute;
-        background-color: #4d4d4d;
-        padding: 1rem 2rem;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-        border-radius: 10px;
-        width: auto;
-        transform: translate(35px, -15px);
-      }
-      .popover:after {
-        content: "";
-        position: absolute;
-        top: 6px;
-        left: -10px;
-        border-style: solid;
-        border-width: 25px 25px 0;
-        border-color: #4d4d4d transparent;
-        display: block;
-        width: 0;
-        z-index: 1;
-        transform: translate(-50%, 50%) rotate(90deg);
-      }
-      .reveal pre code {
-        max-height: 800px !important;
-      }
-    </style>
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
-    <link
-      rel="stylesheet"
-      href="/node_modules/reveal.js/dist/theme/black.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/node_modules/reveal.js/plugin/highlight/monokai.css"
-    />
-    <title>Lesson 1</title>
-  </head>
+    .column {
+      flex: 1;
+    }
 
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        <section>
-          <h1>Non-Primitive Types</h1>
-        </section>
+    section {
+      text-align: left;
+    }
 
-        <section>
-          <h3>Structs</h3>
+    .popover {
+      position: absolute;
+      background-color: #4d4d4d;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      border-radius: 10px;
+      width: auto;
+      transform: translate(35px, -15px);
+    }
 
-          <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Structs with fields
+    .popover:after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: -10px;
+      border-style: solid;
+      border-width: 25px 25px 0;
+      border-color: #4d4d4d transparent;
+      display: block;
+      width: 0;
+      z-index: 1;
+      transform: translate(-50%, 50%) rotate(90deg);
+    }
+
+    .reveal pre code {
+      max-height: 800px !important;
+    }
+  </style>
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/black.css" />
+  <link rel="stylesheet" href="/node_modules/reveal.js/plugin/highlight/monokai.css" />
+  <title>Lesson 2/title>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Non-Primitive Types</h1>
+      </section>
+
+      <section>
+        <h3>Structs</h3>
+
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Structs with fields
 struct Person { // Name is TitleCase
   name: String,
   age: u32
@@ -117,12 +112,12 @@ let (r, g, b) = blue;</span></span>
 struct Line;
 <span class="fragment fade-in-then-semi-out">let line = Line;</span></span>
             </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Initializing structs with fields</h3>
+      <section>
+        <h3>Initializing structs with fields</h3>
 
-          <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining the struct
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining the struct
 struct Person {
   name: String,
   age: u32
@@ -173,12 +168,12 @@ fn create_homonymous_from_person(person: &Person) -> Person {
 }</span>
 
             </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Structs: ownership and mutability</h3>
+      <section>
+        <h3>Structs: ownership and mutability</h3>
 
-          <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Accessing fields
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Accessing fields
 let alice = Person {
   name: String::from("Alice"),
   age: 33
@@ -219,15 +214,15 @@ let color = Color(0, 0, 255);
 <span class="fragment fade-in">let mut color = Color(0, 0, 255);
 color.0 = 100; // Ok</span>
 </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Implementation blocks: instance methods</h3>
+      <section>
+        <h3>Implementation blocks: instance methods</h3>
 
-          <div class="container">
+        <div class="container">
 
-            <div class="column">
-          <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
+          <div class="column">
+            <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
   name: String,
   age: u32
 }
@@ -266,10 +261,10 @@ let is_alice_underage: bool = alice.is_underage();</span></span>
 };
 alice.change_name(String::from("Bob")); // Ok</span></span>
 </code></pre>
-</div>
+          </div>
 
-<div class="column">
-  <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">impl Person {
+          <div class="column">
+            <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">impl Person {
   // We need full ownership of a Person to call "older_person"
   fn older_person(self, other_person: Person) -> Person {
     if self.age >= other_person.age {
@@ -294,21 +289,21 @@ let older_person = alice.older_person(bob);
 </span></span> <!-- TODO: what to say about .into()? -->
 </code></pre>
 
-            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section>
-          <h3>Implementation blocks: static methods</h3>
+      <section>
+        <h3>Implementation blocks: static methods</h3>
 
-          <li class="fragment fade-in-then-semi-out">
-            There is no default constructor <br>
-            <ul>
-              <li class="fragment fade-in-then-semi-out">Define your own with static functions</li>
-            </ul>
-          </li>
+        <li class="fragment fade-in-then-semi-out">
+          There is no default constructor <br>
+          <ul>
+            <li class="fragment fade-in-then-semi-out">Define your own with static functions</li>
+          </ul>
+        </li>
 
-          <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
   name: String,
   age: u32
 }
@@ -326,17 +321,17 @@ impl Person {
 <span class="fragment fade-in">
 let alice = Person::new(33, String::from("Alice"));</span> <!-- TODO: what to say about from? -->
 </span></code></pre>
-          
-        </section>
 
-        <section>
-<h3>The String Struct</h3>
+      </section>
 
-<li class="fragment fade-in-then-semi-out">Not the same as a string literal (&str)</li>
-<li class="fragment fade-in-then-semi-out">String *is* a struct, so it behaves like one</li>
-<li class="fragment fade-in-then-semi-out">Dynamic allocation</li>
+      <section>
+        <h3>The String Struct</h3>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">let string_a = String::from("hello world!");
+        <li class="fragment fade-in-then-semi-out">Not the same as a string literal (&str)</li>
+        <li class="fragment fade-in-then-semi-out">String *is* a struct, so it behaves like one</li>
+        <li class="fragment fade-in-then-semi-out">Dynamic allocation</li>
+
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">let string_a = String::from("hello world!");
 <span class="fragment fade-in-then-semi-out">let string_b = string_a;
 <span class="fragment strike">let string_c = string_a;</span> // Err, "string_a" was consumed in the previous line</span></span>
 
@@ -353,14 +348,14 @@ let string_b: String = format!("hello {}!", string_a);
 let s = String::from("hello world!");
 <span class="fragment strike">let first_char = s[0];</span> // Err</span>  
 </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Enums</h3>
+      <section>
+        <h3>Enums</h3>
 
-          <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
+        <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining an enum
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining an enum
 enum ShapeType {
   Rectangle,
   Square,
@@ -389,12 +384,12 @@ if let ShapeType::Rectangle = shape_type {
 }</span>
 </span>
 </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Enums with payload (I)</h3>
+      <section>
+        <h3>Enums with payload (I)</h3>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Imagine we define these types
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Imagine we define these types
 enum ShapeType {
   Rectangle,
   Triangle,
@@ -420,12 +415,12 @@ struct Square {
 fn area(shape: ?) -> f32 { ... }</span></span></span>
 </code></pre>
 
-</section>
+      </section>
 
-<section>
-  <h3>Enums with payload (II)</h3>
+      <section>
+        <h3>Enums with payload (II)</h3>
 
-<pre><code class="rust" data-noescape>// Instead, each enum variant can have its own payload
+        <pre><code class="rust" data-noescape>// Instead, each enum variant can have its own payload
 enum Shape {
   Rectangle {
     width: f32,
@@ -451,12 +446,12 @@ enum Shape {
 }</span>
 </code></pre>
 
-</section>
+      </section>
 
-<section>
-  <h3>Enums with payload (III)</h3>
+      <section>
+        <h3>Enums with payload (III)</h3>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Every variant can have a different payload style
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Every variant can have a different payload style
 enum GeometricObjects {
   Point,         // Unit variant
   Line(u32, String),     // Tuple-like variant
@@ -467,12 +462,12 @@ enum GeometricObjects {
 }</span>
 </code></pre>
 
-</section>
+      </section>
 
-        <section>
-          <h3>Matching (I)</h3>
+      <section>
+        <h3>Matching (I)</h3>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching doesn't consume
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching doesn't consume
 let shape = Shape::Rectangle;
 match shape {
   Shape::Rectangle => {
@@ -518,13 +513,13 @@ let is_rectangle = match shape {
   _ => false, // '_' means "any other variant"
 }; </span>
 </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Matching (II)</h3>
-          <li class="fragment fade-in-then-semi-out">One of the most powerful features of Rust</li>
+      <section>
+        <h3>Matching (II)</h3>
+        <li class="fragment fade-in-then-semi-out">One of the most powerful features of Rust</li>
 
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching over a boolean
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching over a boolean
 let sample_boolean = true;
 match sample_boolean {
   true => println!("sample_boolean is true"),
@@ -547,12 +542,12 @@ match sample_char {
   _ => println!("sample_char is not a letter")
 }</span>
 </code></pre>
-        </section>
+      </section>
 
-        <section>
-          <h3>Matching (III)</h3>
-          
-<pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// '|' as or operator
+      <section>
+        <h3>Matching (III)</h3>
+
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// '|' as or operator
 let sample_integer_a = 5;
 match sample_integer_a {
   0 | 1 | 2 => println!("sample_integer_a is less than 3"),
@@ -602,27 +597,28 @@ match svg_object {
 }</span></span>
 </code></pre>
 
-        </section>
-      </div>
+      </section>
     </div>
+  </div>
 
-    <script type="module">
-      import Reveal from "reveal.js";
-      import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
-      import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
-      import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
-      import RevealNestedFragments from "reveal.js-nested-fragments";
+  <script type="module">
+    import Reveal from "reveal.js";
+    import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
+    import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
+    import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
+    import RevealNestedFragments from "reveal.js-nested-fragments";
 
-      let deck = new Reveal({
-        transition: "none",
-        plugins: [
-          Markdown,
-          RevealHighlight,
-          RevealNotes,
-          RevealNestedFragments,
-        ],
-      });
-      deck.initialize();
-    </script>
-  </body>
+    let deck = new Reveal({
+      transition: "none",
+      plugins: [
+        Markdown,
+        RevealHighlight,
+        RevealNotes,
+        RevealNestedFragments,
+      ],
+    });
+    deck.initialize();
+  </script>
+</body>
+
 </html>

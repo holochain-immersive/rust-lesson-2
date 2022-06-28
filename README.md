@@ -1,4 +1,4 @@
-# Holochain Immersive: Lesson 1
+# Holochain Immersive: Lesson 2
 
 Source code for the lesson slides. Visit the slides here:
 
