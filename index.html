@@ -18,6 +18,18 @@
       --r-heading-margin: 20px 0 12px 0;
     }
 
+    section {
+      top: 10px !important;
+    }
+
+    code {
+      font-size: 1.25em !important;
+    }
+
+    .hljs-keyword {
+      color: hsl(242deg 75% 71%) !important;
+    }
+
     .slides {
       width: 75% !important;
     }
@@ -85,33 +97,34 @@ struct Person { // Name is TitleCase
   name: String,
   age: u32
 }
-<span class="fragment fade-in">let person = Person {
-  name: String::from("Alice"),
-  age: 33
-};</span>
-<span class="fragment fade-in">// Accessing a field
-let name: String = person.name;</span></span>
-
-<span class="fragment fade-in-then-semi-out">// Deestructuring
+<span class="fragment fade-in">
+// Instantiating
 let person = Person {
   name: String::from("Alice"),
   age: 33
-};
-let Person { name, age } = person;</span>
+};</span>
+<span class="fragment fade-in">
+// Accessing a field
+let name: String = person.name;</span>
 
-<span class="fragment fade-in-then-semi-out">// Tuple Structs
-struct Color(u32, u32, u32);
-<span class="fragment fade-in-then-semi-out">let blue = Color(0, 0, 255);</span>
-<span class="fragment fade-in-then-semi-out">// Accessing a member, just like a tuple
-let red_component: u32 = blue.0;</span>
+<span class="fragment fade-in">// Destructuring from the properties of a struct to local variables
+let Person { name, age } = person;</span></span>
 
-<span class="fragment fade-in">let blue = Color(0, 0, 255);
-let (r, g, b) = blue;</span></span>
+<span class="fragment fade-in-then-semi-out"><span class="fragment">// Tuple Structs</span>
+<span class="fragment">struct Color(u32, u32, u32);</span>
+<span class="fragment">
+// Instantiating</span>
+<span class="fragment fade-in">let banner_color = Color(25, 50, 255);</span>
+<span class="fragment fade-in">
+// Accessing a member, just like a tuple</span>
+<span class="fragment fade-in">let banner_green_intensity: u32 = banner_color.1;</span>
 
-<span class="fragment fade-in-then-semi-out">// Unit Structs
-struct Line;
-<span class="fragment fade-in-then-semi-out">let line = Line;</span></span>
-            </code></pre>
+<span class="fragment fade-in">// Destructuring
+let (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span>
+
+<span class="fragment fade-in-then-semi-out"><span class="fragment">// Unit Structs</span>
+<span class="fragment">struct Utc;</span>
+<span class="fragment fade-in-then-semi-out">let utc = Utc;</span></span></code></pre><span class="fragment"></span>
       </section>
 
       <section>
