@@ -44,6 +44,10 @@
       text-align: left;
     }
 
+    .pin-top {
+      top: -20px !important;
+    }
+
     .popover {
       position: absolute;
       background-color: #4d4d4d;
@@ -85,100 +89,68 @@
         <h1>Non-Primitive Types</h1>
       </section>
 
-      <section>
+      <section class="pin-top">
         <h3>Structs</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Structs with fields
-struct Person { // Name is TitleCase
-  name: String,
-  age: u32
-}
-<span class="fragment fade-in">
-// Instantiating
-let person = Person {
-  name: String::from("Alice"),
-  age: 33
-};</span>
-<span class="fragment fade-in">
-// Accessing a field
-let name: String = person.name;</span>
+        <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="240"><span class="fragment" data-fragment-index="0">// Structs with fields</span>
+<span class="fragment" data-fragment-index="5">struct Person {</span><span class="fragment" data-fragment-index="6"> // Name is TitleCase</span>
+<span class="fragment" data-fragment-index="10">  name: String,</span>
+<span class="fragment" data-fragment-index="20">  age: u32</span>
+<span class="fragment" data-fragment-index="5">}</span>
 
-<span class="fragment fade-in">// Destructuring from the properties of a struct to local variables
-let Person { name, age } = person;</span></span>
+<span class="fragment" data-fragment-index="25">fn main() {</span><span class="fragment" data-fragment-index="26"> // All struct instantiation must happen inside a function</span>
+<span class="fragment" data-fragment-index="30">  // Instantiating</span>
+<span class="fragment" data-fragment-index="40">  let alice = Person {</span>
+<span class="fragment" data-fragment-index="50">    name: String::from("Alice"),</span>
+<span class="fragment" data-fragment-index="60">    age: 33</span>
+<span class="fragment" data-fragment-index="40">  };</span>
 
-<span class="fragment fade-in-then-semi-out"><span class="fragment">// Tuple Structs</span>
-<span class="fragment">struct Color(u32, u32, u32);</span>
-<span class="fragment">
-// Instantiating</span>
-<span class="fragment fade-in">let banner_color = Color(25, 50, 255);</span>
-<span class="fragment fade-in">
-// Accessing a member, just like a tuple</span>
-<span class="fragment fade-in">let banner_green_intensity: u32 = banner_color.1;</span>
+<span class="fragment semi-fade-out" data-fragment-index="63"><span class="fragment" data-fragment-index="61">  // Accessing a field</span>
+<span class="fragment" data-fragment-index="62">  let name: String = person.name;</span></span>
 
-<span class="fragment fade-in">// Destructuring
-let (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span>
+<span class="fragment semi-fade-out" data-fragment-index="66"><span class="fragment" data-fragment-index="64">  // Destructuring from the properties of a struct to local variables</span>
+<span class="fragment" data-fragment-index="65">  let Person { name, age } = person;</span></span>
 
-<span class="fragment fade-in-then-semi-out"><span class="fragment">// Unit Structs</span>
-<span class="fragment">struct Utc;</span>
-<span class="fragment fade-in-then-semi-out">let utc = Utc;</span></span></code></pre><span class="fragment"></span>
+<span class="fragment semi-fade-out" data-fragment-index="111"><span class="fragment" data-fragment-index="70">  // Shorthand field assignment</span>
+<span class="fragment" data-fragment-index="80">  let name = String::from("Bob");</span>
+<span class="fragment" data-fragment-index="90">  let bob = Person {</span>
+<span class="fragment" data-fragment-index="100">    name,<span class="fragment" data-fragment-index="105"> // Variable name and field name need to match</span></span>
+<span class="fragment" data-fragment-index="110">    age: 33</span>
+<span class="fragment" data-fragment-index="90">  };</span></span>
+
+<span class="fragment semi-fade-out" data-fragment-index="185"><span class="fragment" data-fragment-index="120">  // Shorthand struct update syntax</span>
+<span class="fragment" data-fragment-index="130">  let cat = Person {</span>
+<span class="fragment" data-fragment-index="140">    name: String::from("Cat"),</span>
+<span class="fragment" data-fragment-index="150">    ..alice<span class="fragment" data-fragment-index="160"> // Both instances must be of the same struct type</span></span>
+<span class="fragment" data-fragment-index="130">  };</span><span class="fragment" data-fragment-index="170">        // Shorthand must be at the end</span>
+<span class="fragment" data-fragment-index="180">            // alice is consumed</span></span>
+
+<span class="fragment semi-fade-out" data-fragment-index=""><span class="fragment" data-fragment-index="190">  // Shorthand with references</span>
+<span class="fragment" data-fragment-index="200">  let name = &String::from("Dan");</span>
+<span class="fragment" data-fragment-index="210">  let dan = Person {</span>
+<span class="fragment" data-fragment-index="220">    name,<span class="fragment" data-fragment-index="225"> // Err, name is a reference</span></span>
+<span class="fragment" data-fragment-index="230">    age: 56</span>
+<span class="fragment" data-fragment-index="210">  };</span></span>
+<span class="fragment" data-fragment-index="25">}</span></span></code></pre>
       </section>
-
       <section>
-        <h3>Initializing structs with fields</h3>
+        <h3>Other structs</h3>
+        <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="100"><span class="fragment" data-fragment-index="0">// Tuple Structs</span>
+<span class="fragment" data-fragment-index="10">struct Color(u32, u32, u32);</span>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining the struct
-struct Person {
-  name: String,
-  age: u32
-}</span>
+<span class="fragment" data-fragment-index="20">// Instantiating</span>
+<span class="fragment" data-fragment-index="30">let banner_color = Color(25, 50, 255);</span>
 
-<span class="fragment fade-in-then-semi-out">// Instantiating a struct
-let alice = Person {
-  name: String::from("Alice"),
-  age: 48
-};</span>
+<span class="fragment semi-fade-out" data-fragment-index="60"><span class="fragment" data-fragment-index="40">// Accessing a member, just like a tuple</span>
+<span class="fragment" data-fragment-index="50">let banner_green_intensity: u32 = banner_color.1;</span></span>
 
-<span class="fragment fade-in-then-semi-out">// Shorthand field assignment
-let name = String::from("Bob");
-let bob = Person {
-  name, // Variable name and field name need to match
-  age: 33
-};</span>
+<span class="fragment semi-fade-out" data-fragment-index="90"><span class="fragment" data-fragment-index="70">// Destructuring</span>
+<span class="fragment" data-fragment-index="80">let Color (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span></span>
 
-<span class="fragment fade-in-then-semi-out">// Shorthand doesn't work with references
-fn create_homonymous_from_name(name: &String) -> Person {
-  <span class="fragment strike">Person {
-    name, // Err, name is a reference
-    age: 33
-  }</span>
-}</span>
-
-<span class="fragment fade-in-then-semi-out">// Shorthand struct update syntax 
-let alice = Person {
-  name: String::from("Alice"),
-  age: 55
-};
-let bob = Person {
-  name: String::from("Bob"), 
-  ..alice // Both instances must be of the same struct type
-          // Shorthand must be at the end
-};
-<span class="fragment fade-in-then-semi-out">let bob = Person {
-  name: String::from("Bob"), 
-  <span class="fragment strike">..alice </span> // Err, "alice" was consumed in the previous shorthad 
-};</span></span>
-
-<span class="fragment fade-in-then-semi-out">// Shorthand doesn't work with references
-fn create_homonymous_from_person(person: &Person) -> Person {
-  <span class="fragment strike">Person {
-    age: 33,
-    ..person // Err, person is a reference
-  }</span>
-}</span>
-
-            </code></pre>
+<span class="fragment semi-fade-out" data-fragment-index="140"><span class="fragment" data-fragment-index="110">// Unit Structs</span>
+<span class="fragment" data-fragment-index="120">struct Utc;</span>
+<span class="fragment" data-fragment-index="130">let utc = Utc;</span></span></code></pre>
       </section>
-
       <section>
         <h3>Structs: ownership and mutability</h3>
 
@@ -193,7 +165,8 @@ let age: u32 = alice.age; // Ok, u32 is unconsumable</span>
 <span class="fragment fade-in">let name: String = alice.name;</span>
 <span class="fragment fade-in-then-semi-out"><span class="fragment strike">let name: String = alice.name;</span> // Err, "alice" was partially consumed in the previous line</span>
 <span class="fragment fade-in-then-semi-out"><span class="fragment strike">println!("Alice's name is {}", alice.name);</span> // Err, "alice" was partially consumed in the previous line</span></span>
-
+<!-- todo: strikethrough from Person through the };-->
+<!-- todo: add line numbers to all code -->
 <span class="fragment fade-in-then-semi-out">// Consumable by default, unlike tuples and arrays
 struct Color(u32, u32, u32);
 
