@@ -51,21 +51,30 @@
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       border-radius: 10px;
       width: auto;
-      transform: translate(35px, -15px);
+      transform: translate(16px, -15px);
     }
-
     .popover:after {
       content: "";
       position: absolute;
       top: 6px;
-      left: -10px;
+      left: -8px;
       border-style: solid;
-      border-width: 25px 25px 0;
+      border-width: 18px 12px 0;
       border-color: #4d4d4d transparent;
       display: block;
       width: 0;
       z-index: 1;
       transform: translate(-50%, 50%) rotate(90deg);
+    }    
+    
+    .popover .hljs-meta,
+    .popover .hljs-class,
+    .popover .hljs-symbol,
+    .popover .hljs-keyword,
+    .popover .hljs-string,
+    .popover .hljs-title {
+      color: rgb(221, 221, 221) !important;
+      font-weight: normal;
     }
 
     .reveal pre code {
@@ -124,7 +133,7 @@ let (red_intensity, green_intensity, blue_intensity) = banner_color;</span></spa
       </section>
 
       <section>
-        <h3>Initializing structs with fields</h3>
+        <h3>Initializing structs with fields (I)</h3>
 
         <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining the struct
 struct Person {
@@ -153,7 +162,13 @@ fn create_homonymous_from_name(name: &String) -> Person {
   }</span>
 }</span>
 
-<span class="fragment fade-in-then-semi-out">// Shorthand struct update syntax 
+            </code></pre>
+      </section>
+
+      <section>
+        <h3>Initializing structs with fields (II)</h3>
+
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Shorthand struct update syntax 
 let alice = Person {
   name: String::from("Alice"),
   age: 55
@@ -175,12 +190,12 @@ fn create_homonymous_from_person(person: &Person) -> Person {
     ..person // Err, person is a reference
   }</span>
 }</span>
+        </code></pre>
 
-            </code></pre>
       </section>
 
       <section>
-        <h3>Structs: ownership and mutability</h3>
+        <h3>Structs: ownership</h3>
 
         <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Accessing fields
 let alice = Person {
@@ -201,7 +216,13 @@ let blue_a = Color(0, 0, 255);
 let blue_b = blue_a;
 <span class="fragment strike">let blue_c = blue_a;</span> // Err, "blue_a" was consumed in the previous line</span>
 
-<span class="fragment fade-in-then-semi-out">// Mutability cascades
+</code></pre>
+      </section>
+
+      <section>
+        <h3>Structs: mutability</h3>
+
+        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Mutability cascades
 let alice = Person {
   name: String::from("Alice"),
   age: 33
@@ -223,7 +244,7 @@ let color = Color(0, 0, 255);
 <span class="fragment fade-in">let mut color = Color(0, 0, 255);
 color.0 = 100; // Ok</span>
 </code></pre>
-      </section>
+</section>
 
       <section>
         <h3>Implementation blocks: instance methods</h3>
@@ -237,26 +258,25 @@ color.0 = 100; // Ok</span>
 }
 
 <span class="fragment fade-in-then-semi-out">impl Person {
-  <span class="fragment fade-in">// "self" must be the first parameter
-  // Refers to the struct instance
-  fn is_underage(&self) -> bool {
-    self.age < 18
+  <span class="fragment fade-in">fn is_underage(<span class="fragment fade-in">&self</span><span class="fragment fade-in-then-out popover"><li class="fragment fade-in-then-semi-out">"self" must be the first parameter</li><li class="fragment fade-in-then-semi-out">Refers to the struct instance</li></span>) -> bool { <span class="fragment fade-in">// "self" refers to the struct instance</span>
+    <span class="fragment fade-in">self.age < 18</span>
   }</span>
 }
 
-<span class="fragment fade-in">let alice = Person {
-  name: String::from("Alice"),
-  age: 33
-};
+<span class="fragment fade-in">fn some_func() {
+  <span class="fragment fade-in">let alice = Person {
+    name: String::from("Alice"),
+    age: 33
+  };</span>
 
-// "alice" is "self" in this function call
-let is_alice_underage: bool = alice.is_underage();</span></span>
+  <span class="fragment fade-in">let is_alice_underage: bool = alice.is_underage();</span><span class="fragment fade-in-then-out popover">// "alice" is "self" in this function call</span>
+}</span></span>
 
 <span class="fragment fade-in-then-semi-out">impl Person {
   // We need a mutable reference of a Person to call "change_name"
-  fn change_name(&mut self, new_name: String) -> () {
+  <span class="fragment fade-in">fn change_name(<span class="fragment fade-in-then-out popover">&mut self</span>, new_name: String) -> () {
     self.name = new_name;
-  }
+  }</span>
 }
 
 <span class="fragment fade-in-then-semi-out">let alice = Person {
