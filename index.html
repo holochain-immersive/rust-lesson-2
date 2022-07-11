@@ -203,14 +203,14 @@ let blue_b = blue_a;
 
 <span class="fragment fade-in-then-semi-out">// Mutability cascades
 let alice = Person {
-  name: String::from("Alic"),
+  name: String::from("Alice"),
   age: 33
 };
 <span class="fragment strike">alice.age = 34;</span> // Err, "alice" is immutable</span>
 
 <span class="fragment fade-in-then-semi-out">// Mutability cascades
 let mut alice = Person {
-  name: String::from("Alic"),
+  name: String::from("Alice"),
   age: 33
 };
 alice.age = 34; // Ok
