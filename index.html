@@ -92,7 +92,7 @@
       <section class="pin-top">
         <h3>Structs</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="240"><span class="fragment" data-fragment-index="0">// Structs with fields</span>
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment semi-fade-out" data-fragment-index="240"><span class="fragment" data-fragment-index="0">// Structs with fields</span>
 <span class="fragment" data-fragment-index="5">struct Person {</span><span class="fragment" data-fragment-index="6"> // Name is TitleCase</span>
 <span class="fragment" data-fragment-index="10">  name: String,</span>
 <span class="fragment" data-fragment-index="20">  age: u32</span>
@@ -135,7 +135,7 @@
       </section>
       <section>
         <h3>Other structs</h3>
-        <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="100"><span class="fragment" data-fragment-index="0">// Tuple Structs</span>
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment semi-fade-out" data-fragment-index="100"><span class="fragment" data-fragment-index="0">// Tuple Structs</span>
 <span class="fragment" data-fragment-index="10">struct Color(u32, u32, u32);</span>
 
 <span class="fragment" data-fragment-index="20">// Instantiating</span>
@@ -154,7 +154,7 @@
       <section>
         <h3>Structs: ownership and mutability</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Accessing fields
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Accessing fields
 let alice = Person {
   name: String::from("Alice"),
   age: 33
@@ -204,7 +204,7 @@ color.0 = 100; // Ok</span>
         <div class="container">
 
           <div class="column">
-            <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
+            <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">struct Person {
   name: String,
   age: u32
 }
@@ -246,7 +246,7 @@ alice.change_name(String::from("Bob")); // Ok</span></span>
           </div>
 
           <div class="column">
-            <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">impl Person {
+            <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">impl Person {
   // We need full ownership of a Person to call "older_person"
   fn older_person(self, other_person: Person) -> Person {
     if self.age >= other_person.age {
@@ -285,7 +285,7 @@ let older_person = alice.older_person(bob);
           </ul>
         </li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">struct Person {
   name: String,
   age: u32
 }
@@ -313,7 +313,7 @@ let alice = Person::new(33, String::from("Alice"));</span> <!-- TODO: what to sa
         <li class="fragment fade-in-then-semi-out">String *is* a struct, so it behaves like one</li>
         <li class="fragment fade-in-then-semi-out">Dynamic allocation</li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">let string_a = String::from("hello world!");
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">let string_a = String::from("hello world!");
 <span class="fragment fade-in-then-semi-out">let string_b = string_a;
 <span class="fragment strike">let string_c = string_a;</span> // Err, "string_a" was consumed in the previous line</span></span>
 
@@ -337,7 +337,7 @@ let s = String::from("hello world!");
 
         <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining an enum
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Defining an enum
 enum ShapeType {
   Rectangle,
   Square,
@@ -371,7 +371,7 @@ if let ShapeType::Rectangle = shape_type {
       <section>
         <h3>Enums with payload (I)</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Imagine we define these types
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Imagine we define these types
 enum ShapeType {
   Rectangle,
   Triangle,
@@ -402,7 +402,7 @@ fn area(shape: ?) -> f32 { ... }</span></span></span>
       <section>
         <h3>Enums with payload (II)</h3>
 
-        <pre><code class="rust" data-noescape>// Instead, each enum variant can have its own payload
+        <pre><code class="rust" data-noescape data-line-numbers>// Instead, each enum variant can have its own payload
 enum Shape {
   Rectangle {
     width: f32,
@@ -433,7 +433,7 @@ enum Shape {
       <section>
         <h3>Enums with payload (III)</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Every variant can have a different payload style
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Every variant can have a different payload style
 enum GeometricObjects {
   Point,         // Unit variant
   Line(u32, String),     // Tuple-like variant
@@ -449,7 +449,7 @@ enum GeometricObjects {
       <section>
         <h3>Matching (I)</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching doesn't consume
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Matching doesn't consume
 let shape = Shape::Rectangle;
 match shape {
   Shape::Rectangle => {
@@ -501,7 +501,7 @@ let is_rectangle = match shape {
         <h3>Matching (II)</h3>
         <li class="fragment fade-in-then-semi-out">One of the most powerful features of Rust</li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching over a boolean
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// Matching over a boolean
 let sample_boolean = true;
 match sample_boolean {
   true => println!("sample_boolean is true"),
@@ -529,7 +529,7 @@ match sample_char {
       <section>
         <h3>Matching (III)</h3>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// '|' as or operator
+        <pre><code class="rust" data-noescape data-line-numbers><span class="fragment fade-in-then-semi-out">// '|' as or operator
 let sample_integer_a = 5;
 match sample_integer_a {
   0 | 1 | 2 => println!("sample_integer_a is less than 3"),
