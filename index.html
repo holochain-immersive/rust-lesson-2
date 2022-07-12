@@ -22,14 +22,6 @@
       top: 10px !important;
     }
 
-    .code-top {
-      margin-top: -40px;
-    }
-
-    .title-left {
-      margin-left: -150px !important;
-    }
-
     .hljs-keyword {
       color: hsl(242deg 75% 71%) !important;
     }
@@ -423,11 +415,10 @@ enum GeometricObjects {
           <fragment animate="by-line balanced separate-comments"></fragment>
       </section>
 
-      <section class="pin-top">
-        <h3 class="title-left">Matching (I)</h3>
-        <!-- todo: .code-top and .title-left are not a great workarounds, break this slide up -->
+      <section>
+        <h3>Matching (I)</h3>
         <fragment animate="by-line balanced separate-comments">
-          <pre><code class="rust code-top" data-noescape>// Matching doesn't consume
+          <pre><code class="rust" data-noescape>
 let shape = Shape::Rectangle;
 match shape {
   Shape::Rectangle => {
@@ -440,31 +431,21 @@ match shape {
     println!("shape is a square");
   },
 }
-match shape { // Ok
-  Shape::Rectangle => {
-    println!("shape is a rectangle");
-  },
-  Shape::Triangle => {
-    println!("shape is a triangle");
-  },
-  Shape::Square => {
-    println!("shape is a square");
-  },
-}
-let shape = Shape::Rectangle;
+
 // Can have a return value
-let is_rectangle = match shape {
+let is_rectangle = match shape { // Matching doesn't consume
   Shape::Rectangle => true,
   Shape::Triangle => false,
   Shape::Square => false,
 }; // Notice the ';'
-// But all match arms must return the same type
+
+// All match arms must return the same type
 let is_rectangle = match shape {
   Shape::Rectangle => true,
   <span class="fragment strike">Shape::Triangle => String::from("No"), </span> // Err, arms don't return the same type
   Shape::Square => false,
 };
-let shape = Shape::Rectangle;
+
 // Variants can be ommitted
 let is_rectangle = match shape {
   Shape::Rectangle => true,
