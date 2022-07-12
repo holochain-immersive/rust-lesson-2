@@ -510,42 +510,46 @@ match sample_integer_a {
       <section>
         <h3>Matching (IIII)</h3>
         <fragment animate="by-line balanced separate-comments">
-          <pre><code class="rust" data-noescape>// '|' as or operator
-            // If we have these types
-            enum Shape {
-            Rectangle {
-            width: f32,
-            height: f32,
-            },
-            Triangle {
-            base: f32,
-            height: f32
-            },
-            Square {
-            size: f32
-            }
-            }
+          <pre><code class="rust" data-noescape>
+// '|' as or operator
+// If we have these types
+enum Shape {
+  Rectangle {
+    width: f32,
+    height: f32,
+  },
+  Triangle {
+    base: f32,
+    height: f32
+  },
+  Square {
+    size: f32
+  }
+}
 
-            struct Image {
-            image_src: String
-            }
+struct Image {
+  image_src: String
+}
 
-            enum SVGObject {
-            Shape(Shape),
-            Image(Image)
-            }
+enum SVGObject {
+  Shape(Shape),
+  Image(Image)
+}
 
-            let svg_object = SVGObject::Shape(Shape::Square { size: 3.0 });
+let svg_object = SVGObject::Shape(Shape::Square { size: 3.0 });
 
-            // We can match like this
-            match svg_object {
-            // Double destructuring
-            SVGObject::Shape(Shape::Square { size }) => println!("svg_object is a square"),
-            SVGObject::Image(Image { image_src }) => println!("svg_object is an image with image_src: {}", image_src),
-            _ => {}
-            }
+// We can match like this
+match svg_object {
+  // Double destructuring
+  SVGObject::Shape(Shape::Square { size }) => println!("svg_object is a square"),
+  SVGObject::Image(Image { image_src }) => println!("svg_object is an image with image_src: {}", image_src),
+  _ => {}
+}
           </code></pre>
         </fragment>
+      </section>
+      <section>
+        <h1>That's it!</h1>
       </section>
     </div>
   </div>
