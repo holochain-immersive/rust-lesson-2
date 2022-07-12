@@ -22,6 +22,14 @@
       top: 10px !important;
     }
 
+    .code-top {
+      margin-top: -40px;
+    }
+
+    .title-left {
+      margin-left: -150px !important;
+    }
+
     .hljs-keyword {
       color: hsl(242deg 75% 71%) !important;
     }
@@ -202,6 +210,7 @@
 <span class="fragment" data-fragment-index="150">alice.rename(String::from("Ali")); // alice must be mutable</span></span>
 </code></pre>
       </section>
+
       <section>
         <h3>Implementation Blocks: Ownership</h3>
         <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="160"><span class="fragment" data-fragment-index="10">impl Person {</span>
@@ -224,40 +233,35 @@
 <span class="fragment" data-fragment-index="70">};</span>
 <span class="fragment" data-fragment-index="80">let older_person = alice.older_person(bob);</span>
 <span class="fragment strike" data-fragment-index="110"><span class="fragment" data-fragment-index="90">let name = alice.name;</span></span><span class="fragment" data-fragment-index="100"> // Err, "alice" was consumed when calling "older_person"</span>
-<span class="fragment strike" data-fragment-index="140"><span class="fragment" data-fragment-index="120">let name = bob.name;</span></span><span class="fragment" data-fragment-index="130"> // Err, "bob" was consumed when calling "older_person"</span></span>
-<!-- TODO: what to say about .into()? -->
-</code></pre>
-
+<span class="fragment strike" data-fragment-index="140"><span class="fragment" data-fragment-index="120">let name = bob.name;</span></span><span class="fragment" data-fragment-index="130"> // Err, "bob" was consumed when calling "older_person"</span></span></code></pre>
       </section>
 
       <section>
         <h3>Implementation blocks: static methods</h3>
 
-        <li class="fragment fade-in-then-semi-out">
+        <li class="fragment" data-fragment-index="5">
           There is no default constructor <br>
           <ul>
-            <li class="fragment fade-in-then-semi-out">Define your own with static functions</li>
+            <li class="fragment" data-fragment-index="6">Define your own with static functions</li>
           </ul>
         </li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">struct Person {
+        <pre><code class="rust" data-noescape><span class="fragment" data-fragment-index="10">struct Person {
   name: String,
   age: u32
-}
+}</span>
 
-impl Person {
-  <span class="fragment fade-in">// There is no "self" parameter
-  // Does not require an existing person
-  fn new(age: u32, name: String) -> Self { // "Self" refers to Person, the type we are implementing a block for
-    Person {
-      name,
-      age
-    }
-  }</span>
-}
-<span class="fragment fade-in">
-let alice = Person::new(33, String::from("Alice"));</span> <!-- TODO: what to say about from? -->
-</span></code></pre>
+<span class="fragment" data-fragment-index="20">impl Person {</span>
+<span class="fragment" data-fragment-index="30">  fn new(age: u32, name: String) -> Self {</span><span class="fragment" data-fragment-index="60"> // "Self" refers to Person, the type we are implementing a block for</span>
+<span class="fragment" data-fragment-index="40">    Person {</span><span class="fragment" data-fragment-index="70">                               // There is no "self" parameter</span>
+<span class="fragment" data-fragment-index="50">      name,</span><span class="fragment" data-fragment-index="80">                                // Does not require an existing person</span>
+<span class="fragment" data-fragment-index="50">      age</span>
+<span class="fragment" data-fragment-index="40">    }</span>
+<span class="fragment" data-fragment-index="30">  }</span>
+<span class="fragment" data-fragment-index="20">}</span>
+
+<span class="fragment" data-fragment-index="90">let alice = Person::new(33, String::from("Alice"));</span>
+</code></pre>
 
       </section>
 
@@ -268,40 +272,43 @@ let alice = Person::new(33, String::from("Alice"));</span> <!-- TODO: what to sa
         <li class="fragment fade-in-then-semi-out">String *is* a struct, so it behaves like one</li>
         <li class="fragment fade-in-then-semi-out">Dynamic allocation</li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">let string_a = String::from("hello world!");
-<span class="fragment fade-in-then-semi-out">let string_b = string_a;
-<span class="fragment strike">let string_c = string_a;</span> // Err, "string_a" was consumed in the previous line</span></span>
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+let string_a = String::from("hello world!");
+let string_b = string_a;
+<span class="fragment strike">let string_c = string_a;</span> // Err, "string_a" was consumed in the previous line
 
-<span class="fragment fade-in-then-semi-out">let mut string_a = String::from("hello");
-string_a.push_str(" world!"); // ".push_str(&mut self)" needs a mutable reference to the String</span>
+let mut string_a = String::from("hello");
+string_a.push_str(" world!"); // ".push_str(&mut self)" needs a mutable reference to the String
 
-<span class="fragment fade-in-then-semi-out">// format!() is similar to println!(), but creates a String instead of printing
+// format!() is similar to println!(), but creates a String instead of printing
 let string_a = String::from("world");
 let string_b: String = format!("hello {}!", string_a);
-<span class="fragment fade-in-then-semi-out">let string_c: String = format!("bye {}!", string_a); // Ok, format doesn't consume</span></span>
-  
+let string_c: String = format!("bye {}!", string_a); // Ok, format doesn't consume
 
-<span class="fragment fade-in-then-semi-out">// Does not support indexing
+// Does not support indexing
 let s = String::from("hello world!");
-<span class="fragment strike">let first_char = s[0];</span> // Err</span>  
-</code></pre>
+<span class="fragment strike">let first_char = s[0];</span> // Err
+          </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Enums</h3>
 
         <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
-
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Defining an enum
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+// Defining an enum
 enum ShapeType {
   Rectangle,
   Square,
   Triangle
 }
-<span class="fragment fade-in-then-semi-out">// Initializing an enum
+// Initializing an enum
 let shape_type = ShapeType::Rectangle;
 
-<span class="fragment fade-in-then-semi-out">// Matching
+// Matching
 match shape_type {
   ShapeType::Rectangle => {
     println!("shape_type is a rectangle");
@@ -312,52 +319,56 @@ match shape_type {
   ShapeType::Square => {
     println!("shape_type is a square");
   },
-}</span></span>
+}
 
-<span class="fragment fade-in-then-semi-out">let shape_type = ShapeType::Rectangle;
+let shape_type = ShapeType::Rectangle;
 // Destructuring with "if let"
 if let ShapeType::Rectangle = shape_type {
   println!("shape_type is a rectangle");
-}</span>
-</span>
+}
 </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Enums with payload (I)</h3>
-
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Imagine we define these types
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+// Imagine we define these types
 enum ShapeType {
   Rectangle,
   Triangle,
   Square
 }
 
-<span class="fragment fade-in-then-semi-out">struct Rectangle {
+struct Rectangle {
   shape_type: ShapeType,
   width: f32,
   height: f32,
 }
+
 struct Triangle {
   shape_type: ShapeType,
   base: f32,
   height: f32
 }
+
 struct Square {
   shape_type: ShapeType,
   size: f32,
 }
 
-<span class="fragment fade-in-then-semi-out">// This style of joining types gives problems when writing functions for all types
-fn area(shape: ?) -> f32 { ... }</span></span></span>
-</code></pre>
-
+// This style of joining types gives problems when writing functions for all types
+fn area(shape: ?) -> f32 { ... }
+          </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Enums with payload (II)</h3>
-
-        <pre><code class="rust" data-noescape>// Instead, each enum variant can have its own payload
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+// Instead, each enum variant can have its own payload
 enum Shape {
   Rectangle {
     width: f32,
@@ -373,38 +384,40 @@ enum Shape {
 }
 
 
-<span class="fragment fade-in-then-semi-out">fn area(shape: Shape) -> f32 {
+fn area(shape: Shape) -> f32 {
   match shape {
     // Destructuring of the enum payload
     Shape::Rectangle { width, height } => width * height, 
     Shape::Triangle { base, height } => width * height / 2,
     Shape::Square { size } => size * size,
   }
-}</span>
-</code></pre>
-
+}
+          </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Enums with payload (III)</h3>
-
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Every variant can have a different payload style
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+// Every variant can have a different payload style
 enum GeometricObjects {
-  Point,         // Unit variant
+  Point,                 // Unit variant
   Line(u32, String),     // Tuple-like variant
-  Rectangle {    // Struct-like variant
+  Rectangle {            // Struct-like variant
     width: f32,
     height: f32,
   },
-}</span>
-</code></pre>
-
+}
+            </code></pre>
+          <fragment animate="by-line balanced separate-comments"></fragment>
       </section>
 
-      <section>
-        <h3>Matching (I)</h3>
-
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching doesn't consume
+      <section class="pin-top">
+        <h3 class="title-left">Matching (I)</h3>
+        <!-- todo: .code-top and .title-left are not a great workarounds, break this slide up -->
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust code-top" data-noescape>// Matching doesn't consume
 let shape = Shape::Rectangle;
 match shape {
   Shape::Rectangle => {
@@ -427,79 +440,81 @@ match shape { // Ok
   Shape::Square => {
     println!("shape is a square");
   },
-}</span>
-
-<span class="fragment fade-in-then-semi-out">let shape = Shape::Rectangle;
+}
+let shape = Shape::Rectangle;
 // Can have a return value
 let is_rectangle = match shape {
   Shape::Rectangle => true,
   Shape::Triangle => false,
   Shape::Square => false,
-}; // Notice the ';'</span>
-<span class="fragment fade-in-then-semi-out">// But all match arms must return the same type
+}; // Notice the ';'
+// But all match arms must return the same type
 let is_rectangle = match shape {
   Shape::Rectangle => true,
   <span class="fragment strike">Shape::Triangle => String::from("No"), </span> // Err, arms don't return the same type
   Shape::Square => false,
-};</span>
-
-<span class="fragment fade-in-then-semi-out">let shape = Shape::Rectangle;
+};
+let shape = Shape::Rectangle;
 // Variants can be ommitted
 let is_rectangle = match shape {
   Shape::Rectangle => true,
   _ => false, // '_' means "any other variant"
-}; </span>
-</code></pre>
+};
+          </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Matching (II)</h3>
         <li class="fragment fade-in-then-semi-out">One of the most powerful features of Rust</li>
 
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// Matching over a boolean
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>
+// Matching over a boolean
 let sample_boolean = true;
 match sample_boolean {
   true => println!("sample_boolean is true"),
   false => println!("sample_boolean is false"),
-}</span>
+}
 
-<span class="fragment fade-in-then-semi-out">// Matching over numbers
+// Matching over numbers
 let sample_integer = 5;
 match sample_integer {
   0 => println!("sample_integer is 0"),
   1..3 => println!("sample_integer is greater or equal than 1 and less than 3"),
   _ => println!("sample_integer is greater or equal than 3")
-}</span>
+}
 
-<span class="fragment fade-in-then-semi-out">// Matching over characters
+// Matching over characters
 let sample_char = 'A';
 match sample_char {
   'a'..='z' => println!("sample_char is lowercase"),
   'A'..='Z' => println!("sample_char is uppercase"),
   _ => println!("sample_char is not a letter")
-}</span>
-</code></pre>
+}
+          </code></pre>
+        </fragment>
       </section>
 
       <section>
         <h3>Matching (III)</h3>
-
-        <pre><code class="rust" data-noescape><span class="fragment fade-in-then-semi-out">// '|' as or operator
+        <fragment animate="by-line balanced separate-comments">
+          <pre><code class="rust" data-noescape>// '|' as or operator
 let sample_integer_a = 5;
 match sample_integer_a {
   0 | 1 | 2 => println!("sample_integer_a is less than 3"),
   _ => println!("sample_integer_a is greater or equal than 3")
-}</span>
+}
 
-<span class="fragment fade-in-then-semi-out">// Using "if" to match
+// Using "if" to match
 let sample_integer_a = 1;
 let sample_integer_b = 5;
 match sample_integer_a {
   0..=3 if sample_integer_b < 3 => println!("both sample_integer_a and sample_integer_b are less than 3"),
   _ => println!("some number is greater or equal to 3")
-}</span>
+}
 
-<span class="fragment fade-in-then-semi-out">// If we have these types
+// If we have these types
 enum Shape {
   Rectangle {
     width: f32,
@@ -525,15 +540,15 @@ enum SVGObject {
 
 let svg_object = SVGObject::Shape(Shape::Square { size: 3.0 });
   
-<span class="fragment fade-in-then-semi-out">// We can match like this
+// We can match like this
 match svg_object {
   // Double destructuring
   SVGObject::Shape(Shape::Square { size }) => println!("svg_object is a square"),
   SVGObject::Image(Image { image_src }) => println!("svg_object is an image with image_src: {}", image_src),
   _ => {}
-}</span></span>
-</code></pre>
-
+}
+          </code></pre>
+        </fragment>
       </section>
     </div>
   </div>
@@ -545,6 +560,7 @@ match svg_object {
     import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
     import RevealNestedFragments from "reveal.js-nested-fragments";
     import RevealEliminateEmtpyLines from "reveal.js-eliminate-empty-lines";
+    import RevealAnimate from "reveal.js-animate-fragments";
 
     let deck = new Reveal({
       transition: "none",
@@ -553,7 +569,8 @@ match svg_object {
         RevealHighlight,
         RevealNotes,
         RevealNestedFragments,
-        RevealEliminateEmtpyLines
+        RevealEliminateEmtpyLines,
+        RevealAnimate
       ],
     });
     deck.initialize();
