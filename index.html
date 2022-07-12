@@ -63,21 +63,31 @@
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       border-radius: 10px;
       width: auto;
-      transform: translate(35px, -15px);
+      transform: translate(16px, -15px);
     }
 
     .popover:after {
       content: "";
       position: absolute;
       top: 6px;
-      left: -10px;
+      left: -8px;
       border-style: solid;
-      border-width: 25px 25px 0;
+      border-width: 18px 12px 0;
       border-color: #4d4d4d transparent;
       display: block;
       width: 0;
       z-index: 1;
       transform: translate(-50%, 50%) rotate(90deg);
+    }
+
+    .popover .hljs-meta,
+    .popover .hljs-class,
+    .popover .hljs-symbol,
+    .popover .hljs-keyword,
+    .popover .hljs-string,
+    .popover .hljs-title {
+      color: rgb(221, 221, 221) !important;
+      font-weight: normal;
     }
 
     .reveal pre code {
@@ -160,7 +170,7 @@
 <span class="fragment" data-fragment-index="130">let utc = Utc;</span></span></code></pre>
       </section>
       <section>
-        <h3>Structs: ownership and mutability</h3>
+        <h3>Structs: ownership</h3>
 
         <pre><code class="rust" data-noescape><span class="fragment" data-fragment-index="10">// Mutability cascades</span>
 <span class="fragment" data-fragment-index="20">let alice = Person {</span>
