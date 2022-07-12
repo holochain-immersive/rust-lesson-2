@@ -219,7 +219,7 @@ fn area(shape: Shape) -&gt; f32 {
   match shape {
     // Destructuring of the enum payload
     Shape::Rectangle { width, height } =&gt; width * height, 
-    Shape::Triangle { base, height } =&gt; width * height / 2,
+    Shape::Triangle { base, height } =&gt; base * height / 2,
     Shape::Square { size } =&gt; size * size,
   }
 }
