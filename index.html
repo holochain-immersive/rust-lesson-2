@@ -23,7 +23,11 @@
     }
 
     .hljs-keyword {
-      color: hsl(242deg 75% 71%) !important;
+      color: #817eed !important;
+    }
+
+    .hljs-literal {
+      color: #ff90b8 !important;
     }
 
     .slides {
@@ -334,6 +338,7 @@ match shape_type {
 
 let shape_type = ShapeType::Rectangle;
 // Pattern matching with "if let"
+
 if let ShapeType::Rectangle = shape_type {<!-- Question: what is let doing here? similar to a branch arm --><!-- Question: does == work? -->
   println!("shape_type is a rectangle");
 }
@@ -399,7 +404,7 @@ fn area(shape: Shape) -> f32 {
   match shape {
     // Destructuring of the enum payload
     Shape::Rectangle { width, height } => width * height, 
-    Shape::Triangle { base, height } => width * height / 2,
+    Shape::Triangle { base, height } => base * height / 2,
     Shape::Square { size } => size * size,
   }
 }
