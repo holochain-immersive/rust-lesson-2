@@ -112,7 +112,7 @@
 
         <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="240"><span class="fragment" data-fragment-index="0">// Structs with fields</span>
 <span class="fragment" data-fragment-index="5">struct Person {</span><span class="fragment" data-fragment-index="6"> // Name is TitleCase</span>
-<span class="fragment" data-fragment-index="10">  name: String,</span>
+<span class="fragment" data-fragment-index="10">  name: String,</span> <!-- TODO: you can't have references in field types -->
 <span class="fragment" data-fragment-index="20">  age: u32</span>
 <span class="fragment" data-fragment-index="5">}</span>
 
@@ -138,7 +138,7 @@
 
 <span class="fragment semi-fade-out" data-fragment-index="185"><span class="fragment" data-fragment-index="120">  // Shorthand struct update syntax</span>
 <span class="fragment" data-fragment-index="130">  let cat = Person {</span>
-<span class="fragment" data-fragment-index="140">    name: String::from("Cat"),</span>
+<span class="fragment" data-fragment-index="140">    name: String::from("Cat"),</span>  <!-- Question: does alice override name? -->
 <span class="fragment" data-fragment-index="150">    ..alice<span class="fragment" data-fragment-index="160"> // Both instances must be of the same struct type</span></span>
 <span class="fragment" data-fragment-index="130">  };</span><span class="fragment" data-fragment-index="170">        // Shorthand must be at the end</span>
 <span class="fragment" data-fragment-index="180">            // alice is consumed</span></span>
@@ -163,10 +163,10 @@
 <span class="fragment" data-fragment-index="50">let banner_green_intensity: u32 = banner_color.1;</span></span>
 
 <span class="fragment semi-fade-out" data-fragment-index="90"><span class="fragment" data-fragment-index="70">// Destructuring</span>
-<span class="fragment" data-fragment-index="80">let Color (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span></span>
+<span class="fragment" data-fragment-index="80">let Color (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span></span><!-- Question: what does this do exactly? -->
 
 <span class="fragment semi-fade-out" data-fragment-index="140"><span class="fragment" data-fragment-index="110">// Unit Structs</span>
-<span class="fragment" data-fragment-index="120">struct Utc;</span>
+<span class="fragment" data-fragment-index="120">struct Utc;</span><!-- Question: useful example? -->
 <span class="fragment" data-fragment-index="130">let utc = Utc;</span></span></code></pre>
       </section>
       <section>
@@ -174,7 +174,7 @@
 
         <pre><code class="rust" data-noescape><span class="fragment" data-fragment-index="10">// Mutability cascades</span>
 <span class="fragment" data-fragment-index="20">let alice = Person {</span>
-<span class="fragment" data-fragment-index="20">  name: String::from("Alice"),</span>
+<span class="fragment" data-fragment-index="20">  name: String::from("Alice"),</span> 
 <span class="fragment" data-fragment-index="20">  age: 33</span>
 <span class="fragment" data-fragment-index="20">};</span>
 <span class="fragment" data-fragment-index="30">alice.age = 34;</span><span class="fragment" data-fragment-index="40"> // Err, "alice" is immutable</span>
@@ -306,7 +306,7 @@ let s = String::from("hello world!");
       <section>
         <h3>Enums</h3>
 
-        <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
+        <li class="fragment fade-in-then-semi-out">Type that holds only one variant from a fixed set</li>
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Defining an enum
@@ -332,8 +332,6 @@ match shape_type {
 }
 
 let shape_type = ShapeType::Rectangle;
-// Destructuring with "if let"
-if let ShapeType::Rectangle = shape_type {
   println!("shape_type is a rectangle");
 }
 </code></pre>
@@ -341,12 +339,12 @@ if let ShapeType::Rectangle = shape_type {
       </section>
 
       <section>
-        <h3>Enums with payload (I)</h3>
+        <h3>Enums with payload (I)</h3><!-- TODO: this is the problem scenario -->
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Imagine we define these types
 enum ShapeType {
-  Rectangle,
+  Rectangle,<!-- TODO: confusing that the variant and the struct has the same type -->
   Triangle,
   Square
 }
@@ -375,7 +373,7 @@ fn area(shape: ?) -&gt; f32 { ... }
       </section>
 
       <section>
-        <h3>Enums with payload (II)</h3>
+        <h3>Enums with payload (II)</h3><!-- TODO: this is the solution -->
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Instead, each enum variant can have its own payload
@@ -544,7 +542,7 @@ struct Image {
 }
 
 enum SVGObject {
-  Shape(Shape),
+  Shape(Shape),<!-- TODO: the variant and the type don't have to have the same name, it is like this by convention -->
   Image(Image)
 }
 
