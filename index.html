@@ -108,7 +108,7 @@
 
         <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="240"><span class="fragment" data-fragment-index="0">// Structs with fields</span>
 <span class="fragment" data-fragment-index="5">struct Person {</span><span class="fragment" data-fragment-index="6"> // Name is TitleCase</span>
-<span class="fragment" data-fragment-index="10">  name: String,</span>
+<span class="fragment" data-fragment-index="10">  name: String,</span> <!-- TODO: you can't have references in field types -->
 <span class="fragment" data-fragment-index="20">  age: u32</span>
 <span class="fragment" data-fragment-index="5">}</span>
 
@@ -134,7 +134,7 @@
 
 <span class="fragment semi-fade-out" data-fragment-index="185"><span class="fragment" data-fragment-index="120">  // Shorthand struct update syntax</span>
 <span class="fragment" data-fragment-index="130">  let cat = Person {</span>
-<span class="fragment" data-fragment-index="140">    name: String::from("Cat"),</span>
+<span class="fragment" data-fragment-index="140">    name: String::from("Cat"),</span>  <!-- Question: does alice override name? -->
 <span class="fragment" data-fragment-index="150">    ..alice<span class="fragment" data-fragment-index="160"> // Both instances must be of the same struct type</span></span>
 <span class="fragment" data-fragment-index="130">  };</span><span class="fragment" data-fragment-index="170">        // Shorthand must be at the end</span>
 <span class="fragment" data-fragment-index="180">            // alice is consumed</span></span>
@@ -159,10 +159,10 @@
 <span class="fragment" data-fragment-index="50">let banner_green_intensity: u32 = banner_color.1;</span></span>
 
 <span class="fragment semi-fade-out" data-fragment-index="90"><span class="fragment" data-fragment-index="70">// Destructuring</span>
-<span class="fragment" data-fragment-index="80">let Color (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span></span>
+<span class="fragment" data-fragment-index="80">let Color (red_intensity, green_intensity, blue_intensity) = banner_color;</span></span></span><!-- Question: what does this do exactly? -->
 
 <span class="fragment semi-fade-out" data-fragment-index="140"><span class="fragment" data-fragment-index="110">// Unit Structs</span>
-<span class="fragment" data-fragment-index="120">struct Utc;</span>
+<span class="fragment" data-fragment-index="120">struct Utc;</span><!-- Question: useful example? -->
 <span class="fragment" data-fragment-index="130">let utc = Utc;</span></span></code></pre>
       </section>
       <section>
@@ -170,7 +170,7 @@
 
         <pre><code class="rust" data-noescape><span class="fragment" data-fragment-index="10">// Mutability cascades</span>
 <span class="fragment" data-fragment-index="20">let alice = Person {</span>
-<span class="fragment" data-fragment-index="20">  name: String::from("Alice"),</span>
+<span class="fragment" data-fragment-index="20">  name: String::from("Alice"),</span> 
 <span class="fragment" data-fragment-index="20">  age: 33</span>
 <span class="fragment" data-fragment-index="20">};</span>
 <span class="fragment" data-fragment-index="30">alice.age = 34;</span><span class="fragment" data-fragment-index="40"> // Err, "alice" is immutable</span>
@@ -191,8 +191,17 @@
 
 <span class="fragment" data-fragment-index="20">// Use impl to implement methods on structs</span>
 <span class="fragment" data-fragment-index="30">impl Person {</span>
-<span class="fragment" data-fragment-index="40">  fn can_vote(&self) -> bool {</span> <span class="fragment" data-fragment-index="50">// "self" must be the first parameter and refers to the struct instance</span>
-<span class="fragment" data-fragment-index="60">    self.age &lt 18</span>
+<span class="fragment" data-fragment-index="40">  fn can_vote(&self) -> bool {</span> <span class="fragment" data-fragment-index="50">// "self" must be the first parameter and refers to the struct instance</span><!-- Question: all fields are passed in self? -->
+<span class="fragment" data-fragment-index="60">    self.age &gt; 18</span>
+<span class="fragment" data-fragment-index="40">  }</span>
+<span class="fragment" data-fragment-index="30">}</span>
+
+<!-- TODO: polish this example -->
+<span class="fragment" data-fragment-index="20">// Use impl to implement methods on structs</span>
+<span class="fragment" data-fragment-index="30">impl Person {</span>
+<span class="fragment" data-fragment-index="40">  fn can_vote(&self) -> bool {</span> <span class="fragment" data-fragment-index="50">// "self" must be the first parameter and refers to the struct instance</span><!-- Question: all fields are passed in self? -->
+<span class="fragment" data-fragment-index="60">    let s = self.string; // Err
+<span class="fragment" data-fragment-index="70">    let s = &self.string; // Works
 <span class="fragment" data-fragment-index="40">  }</span>
 <span class="fragment" data-fragment-index="30">}</span>
 
@@ -220,7 +229,7 @@
       <section>
         <h3>Implementation Blocks: Ownership</h3>
         <pre><code class="rust" data-noescape><span class="fragment semi-fade-out" data-fragment-index="160"><span class="fragment" data-fragment-index="10">impl Person {</span>
-<span class="fragment" data-fragment-index="20">  fn older_person(self, other_person: Person) -> Person {</span><span class="fragment" data-fragment-index="150"> // We need full ownership of both Persons to call "older_person"</span>
+<span class="fragment" data-fragment-index="20">  fn older_person(self, other_person: Person) -> Person {</span><span class="fragment" data-fragment-index="150"> // We need full ownership of both Persons to call "older_person"</span><!-- Question: is the memory copied or reused? -->
 <span class="fragment" data-fragment-index="30">    if self.age >= other_person.age {</span>
 <span class="fragment" data-fragment-index="40">      self</span>
 <span class="fragment" data-fragment-index="30">    }</span><span class="fragment" data-fragment-index="50"> else {</span>
@@ -258,8 +267,8 @@
 }</span>
 
 <span class="fragment" data-fragment-index="20">impl Person {</span>
-<span class="fragment" data-fragment-index="30">  fn new(age: u32, name: String) -> Self {</span><span class="fragment" data-fragment-index="60"> // "Self" refers to Person, the type we are implementing a block for</span>
-<span class="fragment" data-fragment-index="40">    Person {</span><span class="fragment" data-fragment-index="70">                               // There is no "self" parameter</span>
+<span class="fragment" data-fragment-index="30">  fn new(age: u32, name: String) -> Self {</span><span class="fragment" data-fragment-index="60"> // "Self" refers to Person, the type we are implementing a block for</span><!-- TODO: uh I thought you said every method received self -->
+<span class="fragment" data-fragment-index="40">    Person {</span><span class="fragment" data-fragment-index="70">                               // There is no "self" parameter</span><!-- TODO: can you say Self here instead of Person? -->
 <span class="fragment" data-fragment-index="50">      name,</span><span class="fragment" data-fragment-index="80">                                // Does not require an existing person</span>
 <span class="fragment" data-fragment-index="50">      age</span>
 <span class="fragment" data-fragment-index="40">    }</span>
@@ -302,7 +311,7 @@ let s = String::from("hello world!");
       <section>
         <h3>Enums</h3>
 
-        <li class="fragment fade-in-then-semi-out">Type that holds only variant from a fixed set</li>
+        <li class="fragment fade-in-then-semi-out">Type that holds only one variant from a fixed set</li>
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Defining an enum
@@ -329,7 +338,8 @@ match shape_type {
 
 let shape_type = ShapeType::Rectangle;
 // Pattern matching with "if let"
-if let ShapeType::Rectangle = shape_type {
+
+if let ShapeType::Rectangle = shape_type {<!-- Question: what is let doing here? similar to a branch arm --><!-- Question: does == work? -->
   println!("shape_type is a rectangle");
 }
 </code></pre>
@@ -337,12 +347,12 @@ if let ShapeType::Rectangle = shape_type {
       </section>
 
       <section>
-        <h3>Enums with payload (I)</h3>
+        <h3>Enums with payload (I)</h3><!-- TODO: this is the problem scenario -->
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Imagine we define these types
 enum ShapeType {
-  Rectangle,
+  Rectangle,<!-- TODO: confusing that the variant and the struct has the same type -->
   Triangle,
   Square
 }
@@ -371,7 +381,7 @@ fn area(shape: ?) -> f32 { ... }
       </section>
 
       <section>
-        <h3>Enums with payload (II)</h3>
+        <h3>Enums with payload (II)</h3><!-- TODO: this is the solution -->
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 // Instead, each enum variant can have its own payload
@@ -420,7 +430,7 @@ enum GeometricObjects {
       </section>
 
       <section>
-        <h3>Matching (I)</h3>
+        <h3>Matching (I)</h3><!-- Question: talk about matching and ownership -->
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
 let shape = Shape::Rectangle;
@@ -453,7 +463,7 @@ let is_rectangle = match shape {
 // Variants can be ommitted
 let is_rectangle = match shape {
   Shape::Rectangle => true,
-  _ => false, // '_' means "any other variant"
+  _ => false, // '_' means "any other variant"<!-- TODO: Must be the last -->
 };
           </code></pre>
         </fragment>
@@ -505,7 +515,7 @@ match sample_integer_a {
 let sample_integer_a = 1;
 let sample_integer_b = 5;
 match sample_integer_a {
-  0..=3 if sample_integer_b &lt; 3 => println!("both sample_integer_a and sample_integer_b are less than 3"),
+  0..3 if sample_integer_b &lt; 3 => println!("both sample_integer_a and sample_integer_b are less than 3"),
   _ => println!("some number is greater or equal to 3")
 }
           </code></pre>
@@ -515,7 +525,7 @@ match sample_integer_a {
         <h3>Matching (IV)</h3>
         <fragment animate="by-line balanced separate-comments">
           <pre><code class="rust" data-noescape>
-// '|' as or operator
+// Deep destructuring
 // If we have these types
 enum Shape {
   Rectangle {
@@ -536,7 +546,7 @@ struct Image {
 }
 
 enum SVGObject {
-  Shape(Shape),
+  Shape(Shape),<!-- TODO: the variant and the type don't have to have the same name, it is like this by convention -->
   Image(Image)
 }
 
@@ -545,7 +555,8 @@ let svg_object = SVGObject::Shape(Shape::Square { size: 3.0 });
 // We can match like this
 match svg_object {
   // Double destructuring
-  SVGObject::Shape(Shape::Square { size }) => println!("svg_object is a square"),
+  SVGObject::Shape(Shape::Square { size }) => println!("svg_object is a square"),<!-- If you are not using the variable, you can just use the rest operator .. -->
+  SVGObject::Shape(shape) => println!("svg_object is a shape that is not a square"),
   SVGObject::Image(Image { image_src }) => println!("svg_object is an image with image_src: {}", image_src),
   _ => {}
 }
